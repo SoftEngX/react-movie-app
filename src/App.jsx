@@ -21,7 +21,7 @@ const App = () => {
   const [movieList, setMovieList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchMovies = async () => {
+  const fetchMovies = async (query = "") => {
     setIsLoading(true);
     setErrorMessage("");
     try {
@@ -30,10 +30,13 @@ const App = () => {
         setErrorMessage(
           "Missing TMDB API key. Please set VITE_TMDB_API_KEY in your .env file and restart the dev server."
         );
+        isLoading(false);
         return;
       }
 
-      const endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
+      const endpoint = query
+        ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
+        : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
 
       const response = await fetch(endpoint, API_OPTIONS);
 
@@ -60,8 +63,8 @@ const App = () => {
   };
 
   useEffect(() => {
-    fetchMovies();
-  }, []);
+    fetchMovies(searchTerm);
+  }, [searchTerm]);
   return (
     <main>
       <div className="pattern" />
