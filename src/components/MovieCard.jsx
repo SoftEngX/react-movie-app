@@ -1,9 +1,20 @@
-import React from 'react'
+import React from "react";
 
-const MovieCard = () => {
+const MovieCard = ({
+  movie: { title, vote_average, poster_path, release_date, orginal_language },
+}) => {
   return (
-    <div>MovieCard</div>
-  )
-}
+    <div className="movie-card">
+      <img
+        src={
+          poster_path
+            ? `https://image.tmdb.org/t/p/w500${poster_path}`
+            : "/no-movie.png"
+        }
+        alt=""
+      />
+    </div>
+  );
+};
 
-export default MovieCard
+export default MovieCard;
